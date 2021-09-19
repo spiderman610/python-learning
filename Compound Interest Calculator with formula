@@ -1,0 +1,103 @@
+def compound_interest():
+    amount = principal_balance * ( 1 + interest_rate / n )**(n*time_priod)
+    interest = amount - principal_balance
+    print(f"Total intrest earn: {interest}")
+
+def Future_investment_value():
+    amount = principal_balance * ( 1 + interest_rate / n )**(n*time_priod)
+    interest = amount - principal_balance
+    Future_investment = interest + principal_balance
+    print(f"Future_investment_value: {Future_investment}")
+
+
+compound_interval_to_number_map = {
+	"y": 1,
+  	"m": 12,
+        "w": 52,
+        "d": 365,
+        "q": 4,
+        "hy":2,
+        "hm":24,
+        "bim":60,
+        "biw":260
+}
+
+
+
+interest_interval_to_number_map = {
+    "y": 1,
+    "m": 12,
+    "w": 52,
+    "d": 365
+}
+
+
+deposite_interval_to_number_map = {
+    "y": 1,
+    "m": 12,
+    "q": 4,
+    "hy": 2
+}
+
+    
+
+principal_balance = float(input('Initial_Balance_Amount: '))
+interest_rate = float(input('Interest_Rate: '))
+interest_rate /= 100
+interest_interval = input('Interest Intervals : \n(y)Years \n(m)Month \n(w)Weekly \n(d)Daily \n>').lower()
+interest_interval_value = interest_interval_to_number_map.get(interest_interval)
+interest_rate *= interest_interval_value
+time_period = input('Select Compound Intervale : \n(y)Years \n(m)Month \n(w)Weekly \n(d)Daily \n(q)Quarterly \n(hy)Half_Yearly \n(hm)Half_Monthly \n(bim)Bi_Monthly \n(biw)Bi_Weekly \n> ').lower()
+year = int(input('Year \n> '))
+months = int(input('Months \n> '))
+if year and months :
+     time_priod = year +(months/12)
+elif months :
+     time_priod = months/12
+elif year  :
+     time_priod = year
+else :
+     print('Wrong_input')
+n = compound_interval_to_number_map.get(time_period)
+advanced_options = input('Advanced_Options \n(ON)ON \n(OFF)Off\n').upper()
+if advanced_options == "ON":
+    regular_contributions = input('(D)Deposit\n(W)Withdrawals\n').upper()
+    if regular_contributions == "D":
+        deposite_amount = int(input('Amount\n> '))
+        deposite_interval =  input('deposite_interval \n(y)Years \n(m)Month \n(q)Quarterly \n(hy)Half Yearly \n>').lower()
+        deposite_interval_value = deposite_interval_to_number_map.get(deposite_interval)
+        deposite_period = input('Deposits made at what point in period ? \n(e)End \n(b)Beginning? \n>').lower()
+        if deposite_period == "e":
+            total = principal_balance*( 1 + interest_rate / n )**(n*time_priod)
+            total += deposite_amount*(deposite_interval_value/n) * (((1 + interest_rate/n)**(n*time_priod) - 1) / (interest_rate/n))
+            print(f'Future investment value in Advance = {total}')
+        elif deposite_period == "b":
+            total = principal_balance*( 1 + interest_rate / n )**(n*time_priod)
+            total += deposite_amount*(deposite_interval_value/n) * (((1 + interest_rate/n)**(n*time_priod) - 1) / (interest_rate/n)) * (1+interest_rate/n) 
+            print(f'Future investment value in advance = {total}')
+        else:
+            print('Wrong Input')
+    elif regular_contributions =="W":
+        withdrawals_amount = int(input('Amount\n> '))
+        withdrawals_interval = input('withdrawals_interval \n(y)Years \n(m)Month \n(q)Quarterly \n(hy)Half Yearly \n>').lower()
+        withdrawals_interval_value = deposite_interval_to_number_map.get(withdrawals_interval)
+        withdrawals_period = input('Withdrawals made at what point in period ? \n(e)End \n(b)Beginning? \n>').lower()
+        if withdrawals_period == "e":
+            total = principal_balance*( 1 + interest_rate / n )**(n*time_priod)
+            total -= withdrawals_amount*(withdrawals_interval_value/n) * (((1 + interest_rate/n)**(n*time_priod) - 1) / (interest_rate/n))
+            print(f'Future investment value in Advance = {total}')
+        elif withdrawals_period == "b":
+            total = principal_balance*( 1 + interest_rate / n )**(n*time_priod)
+            total -= withdrawals_amount*(withdrawals_interval_value/n) * (((1 + interest_rate/n)**(n*time_priod) - 1) / (interest_rate/n)) * (1+interest_rate/n) 
+            print(f'Future investment value in advance = {total}')
+        else:
+            print('Wrong Input')
+    else:
+        print('You have selected a wrong input.') 
+elif advanced_options == "OFF":
+    print('advance option off ')
+else:
+    print('You have selected a wrong input.')
+compound_interest()
+Future_investment_value()
+
